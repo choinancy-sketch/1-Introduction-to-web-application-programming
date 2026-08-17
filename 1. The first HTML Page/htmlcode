@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My First Webpage</title>
+</head>
+<body>
+    <header>
+        <h1 id="greeting">Welcome to My Page</h1>
+        <p class="subtitle">Built in class today!</p>
+    </header>
+
+    <main>
+        <section class="about">
+            <h2>About Me</h2>
+            <p>Hi! My name is <span id="name">[Your Name]</span></p>
+            <p>I'm learning web development!</p>
+        </section>
+
+        <section class="interests">
+            <h2>My Interests</h2>
+            <ul>
+                <li>🎮 Gaming</li>
+                <li>📚 Reading</li>
+                <li>💻 Coding</li>
+            </ul>
+        </section>
+
+        <section class="interactive">
+            <h2>Try It!</h2>
+            <input type="text" id="userInput" placeholder="Enter your name">
+            <button onclick="greetUser()">Greet Me!</button>
+            <p id="output"></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 - My First Web Page</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,22 @@
+function greetUser() {
+    const name = document.getElementById('userInput').value;
+    const output = document.getElementById('output');
+    const greeting = document.getElementById('greeting');
+
+    if (name.trim() !== '') {
+        output.textContent = `Hello, ${name}! Welcome to web development! 🎉`;
+        greeting.textContent = `${name}'s Awesome Page`;
+
+        // Add a fun animation
+        output.style.animation = 'none';
+        output.offsetHeight; // Trigger reflow
+        output.style.animation = 'fadeIn 0.5s ease-in';
+    } else {
+        output.textContent = 'Please enter your name! 😊';
+    }
+}
+
+// Display current date and time
+const now = new Date();
+document.querySelector('.subtitle').textContent +=
+    ` | ${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
