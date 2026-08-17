@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DemoFinance & Investment Portal</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchPage('dashboard')">
+                <div class="bg-brand-600 text-white p-2 rounded-xl flex items-center justify-center shadow-md">
+                    <i class="fa-solid fa-chart-line text-lg"></i>
+                </div>
+                <span class="text-xl font-bold tracking-tight text-slate-900">Demo<span class="text-brand-600">Finance</span></span>
+            </div>
+            <div class="hidden md:flex items-center space-x-6 text-sm font-medium text-slate-600">
+                <button onclick="switchPage('dashboard')" id="nav-dash" class="nav-link hover:text-brand-600 transition pb-1 border-b-2 border-brand-600 text-brand-600">Dashboard</button>
+                <button onclick="switchPage('markets')" id="nav-markets" class="nav-link hover:text-brand-600 transition pb-1">Markets</button>
+                <button onclick="switchPage('analytics')" id="nav-analytics" class="nav-link hover:text-brand-600 transition pb-1">Analytics</button>
+                <button onclick="switchPage('support')" id="nav-support" class="nav-link hover:text-brand-600 transition pb-1">Support</button>
+            </div>
+            <div class="flex items-center space-x-3">
+                <div id="auth-status-container">
+                    <button onclick="switchPage('signin')" id="nav-auth-btn" class="bg-slate-900 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-slate-800 transition shadow-sm">Sign In</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main App Container -->
+    <main class="flex-grow">
+
+        <!-- PAGE 1: DASHBOARD PAGE -->
+        <div id="page-dashboard" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+            <!-- Welcome Header -->
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <div>
+                    <h1 class="text-2xl font-bold text-slate-900" id="welcome-msg">Welcome back, Investor! 👋</h1>
+                    <p class="text-slate-500 text-sm mt-1">Here is a quick overview of your portfolio performance today.</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-brand-50 text-brand-700 border border-brand-100">
+                        <span class="w-2 h-2 mr-1.5 bg-brand-500 rounded-full animate-pulse"></span> Market Live
+                    </span>
+                    <button onclick="refreshData()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-lg text-sm font-medium transition">
+                        <i class="fa-solid fa-rotate-right mr-1.5"></i> Refresh
+                    </button>
+                </div>
+            </div>
+
+            <!-- Financial Metrics Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="flex items-center justify-between text-slate-500 text-sm font-medium">
+                        <span>Total Portfolio Value</span>
+                        <i class="fa-solid fa-wallet text-brand-600 bg-brand-50 p-2 rounded-lg"></i>
+                    </div>
+                    <div class="mt-4 flex items-baseline">
+                        <span class="text-3xl font-bold text-slate-900">$128,450.90</span>
+                    </div>
+                    <div class="mt-2 flex items-center text-xs font-semibold text-emerald-600">
+                        <i class="fa-solid fa-arrow-trend-up mr-1"></i> +4.2% ($5,120.40) today
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="flex items-center justify-between text-slate-500 text-sm font-medium">
+                        <span>Monthly Return</span>
+                        <i class="fa-solid fa-chart-pie text-blue-600 bg-blue-50 p-2 rounded-lg"></i>
+                    </div>
+                    <div class="mt-4 flex items-baseline">
+                        <span class="text-3xl font-bold text-slate-900">+$12,340.50</span>
+                    </div>
+                    <div class="mt-2 flex items-center text-xs font-semibold text-emerald-600">
+                        <i class="fa-solid fa-arrow-trend-up mr-1"></i> +10.6% this month
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="flex items-center justify-between text-slate-500 text-sm font-medium">
+                        <span>Active Investments</span>
+                        <i class="fa-solid fa-layer-group text-purple-600 bg-purple-50 p-2 rounded-lg"></i>
+                    </div>
+                    <div class="mt-4 flex items-baseline">
+                        <span class="text-3xl font-bold text-slate-900">14 Assets</span>
+                    </div>
+                    <div class="mt-2 text-xs text-slate-500">
+                        Stocks, Crypto & ETFs
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                    <div class="flex items-center justify-between text-slate-500 text-sm font-medium">
+                        <span>Risk Score</span>
+                        <i class="fa-solid fa-shield-halved text-amber-600 bg-amber-50 p-2 rounded-lg"></i>
+                    </div>
+                    <div class="mt-4 flex items-baseline">
+                        <span class="text-3xl font-bold text-slate-900">Moderate</span>
+                    </div>
+                    <div class="mt-2 text-xs text-slate-500">
+                        Balanced Portfolio Strategy
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Assets & Markets Table -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="p-6 border-b border-slate-100 flex items-center justify-between">
+                    <h3 class="text-lg font-bold text-slate-900">Your Holdings & Markets</h3>
+                    <span class="text-xs text-slate-500 font-medium">Updated 1 min ago</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead>
+                            <tr class="bg-slate-50 text-slate-500 uppercase text-xs tracking-wider border-b border-slate-100">
+                                <th class="py-3 px-6 font-semibold">Asset Name</th>
+                                <th class="py-3 px-6 font-semibold">Ticker</th>
+                                <th class="py-3 px-6 font-semibold">Holdings</th>
+                                <th class="py-3 px-6 font-semibold">Current Price</th>
+                                <th class="py-3 px-6 font-semibold">24h Change</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr class="hover:bg-slate-50/50 transition">
+                                <td class="py-4 px-6 flex items-center space-x-3">
+                                    <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs">APL</div>
+                                    <span class="font-semibold text-slate-900">Apple Inc.</span>
+                                </td>
+                                <td class="py-4 px-6 font-mono text-slate-600">AAPL</td>
+                                <td class="py-4 px-6 text-slate-700">45 shares</td>
+                                <td class="py-4 px-6 font-semibold text-slate-900">$189.40</td>
+                                <td class="py-4 px-6 text-emerald-600 font-semibold">+1.85%</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50/50 transition">
+                                <td class="py-4 px-6 flex items-center space-x-3">
+                                    <div class="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold text-xs">BTC</div>
+                                    <span class="font-semibold text-slate-900">Bitcoin</span>
+                                </td>
+                                <td class="py-4 px-6 font-mono text-slate-600">BTC</td>
+                                <td class="py-4 px-6 text-slate-700">1.25 BTC</td>
+                                <td class="py-4 px-6 font-semibold text-slate-900">$64,250.00</td>
+                                <td class="py-4 px-6 text-emerald-600 font-semibold">+3.42%</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50/50 transition">
+                                <td class="py-4 px-6 flex items-center space-x-3">
+                                    <div class="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center font-bold text-xs">ETH</div>
+                                    <span class="font-semibold text-slate-900">Ethereum</span>
+                                </td>
+                                <td class="py-4 px-6 font-mono text-slate-600">ETH</td>
+                                <td class="py-4 px-6 text-slate-700">8.4 ETH</td>
+                                <td class="py-4 px-6 font-semibold text-slate-900">$3,480.10</td>
+                                <td class="py-4 px-6 text-rose-600 font-semibold">-0.74%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+         
+
+        <!-- PAGE 2: MARKETS PAGE -->
+        <div id="page-markets" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <h1 class="text-2xl font-bold text-slate-900">Global Markets & Exchanges 📈</h1>
+                    <p class="text-slate-500 text-sm mt-1">Real-time quotes across global stock indices, commodities, and cryptocurrencies.</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button onclick="fetchGeminiMarketInsight()" id="insight-btn" class="bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition shadow-sm flex items-center space-x-2">
+                        <i class="fa-solid fa-robot mr-1"></i> Generate AI Market Insight
+                    </button>
+                </div>
+            </div>
+
+            <!-- Gemini AI Market Insight Banner -->
+            <div id="market-insight-container" class="hidden bg-brand-50 border border-brand-200 p-6 rounded-2xl shadow-sm space-y-2">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2 text-brand-800 font-bold">
+                        <i class="fa-solid fa-chart-line text-brand-600"></i>
+                        <span>Gemini Real-Time Market Analysis & Grounded Search</span>
+                    </div>
+                    <span class="text-[10px] bg-brand-200 text-brand-800 px-2 py-0.5 rounded font-mono">Live Web Grounded</span>
+                </div>
+                <div id="market-insight-content" class="text-sm text-slate-700 leading-relaxed"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                    <div class="flex justify-between items-center text-slate-500 text-xs font-semibold uppercase">
+                        <span>S&P 500 Index</span>
+                        <span class="text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">+0.84%</span>
+                    </div>
+                    <div class="text-2xl font-bold text-slate-900">5,477.90</div>
+                    <div class="text-xs text-slate-500">Volume: 3.1B shares</div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                    <div class="flex justify-between items-center text-slate-500 text-xs font-semibold uppercase">
+                        <span>NASDAQ Composite</span>
+                        <span class="text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">+1.22%</span>
+                    </div>
+                    <div class="text-2xl font-bold text-slate-900">17,425.10</div>
+                    <div class="text-xs text-slate-500">Volume: 4.8B shares</div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                    <div class="flex justify-between items-center text-slate-500 text-xs font-semibold uppercase">
+                        <span>Crude Oil WTI</span>
+                        <span class="text-rose-600 bg-rose-50 px-2 py-0.5 rounded">-0.45%</span>
+                    </div>
+                    <div class="text-2xl font-bold text-slate-900">$78.34 / bbl</div>
+                    <div class="text-xs text-slate-500">Energy Futures</div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden p-6 space-y-4">
+                <h3 class="text-lg font-bold text-slate-900">Top Trending Assets</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="p-4 rounded-xl border border-slate-100 bg-slate-50 flex items-center justify-between">
+                        <div>
+                            <div class="font-bold text-slate-900">Tesla Inc.</div>
+                            <div class="text-xs text-slate-500">TSLA • NASDAQ</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-bold text-slate-900">$248.50</div>
+                            <div class="text-xs text-emerald-600 font-semibold">+4.12%</div>
+                        </div>
+                    </div>
+                    <div class="p-4 rounded-xl border border-slate-100 bg-slate-50 flex items-center justify-between">
+                        <div>
+                            <div class="font-bold text-slate-900">NVIDIA Corp.</div>
+                            <div class="text-xs text-slate-500">NVDA • NASDAQ</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-bold text-slate-900">$128.30</div>
+                            <div class="text-xs text-emerald-600 font-semibold">+2.95%</div>
+                        </div>
+                    </div>
+                    <div class="p-4 rounded-xl border border-slate-100 bg-slate-50 flex items-center justify-between">
+                        <div>
+                            <div class="font-bold text-slate-900">Solana</div>
+                            <div class="text-xs text-slate-500">SOL • Crypto</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-bold text-slate-900">$142.10</div>
+                            <div class="text-xs text-rose-600 font-semibold">-1.20%</div>
+                        </div>
+                    </div>
+                    <div class="p-4 rounded-xl border border-slate-100 bg-slate-50 flex items-center justify-between">
+                        <div>
+                            <div class="font-bold text-slate-900">Gold Futures</div>
+                            <div class="text-xs text-slate-500">GC • Commodity</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-bold text-slate-900">$2,410.50</div>
+                            <div class="text-xs text-emerald-600 font-semibold">+0.35%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 3: ANALYTICS PAGE -->
+        <div id="page-analytics" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                <h1 class="text-2xl font-bold text-slate-900">Advanced Portfolio Analytics 📊</h1>
+                <p class="text-slate-500 text-sm mt-1">Deep-dive into your asset allocation, compound growth projections, and risk analytics.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Asset Allocation Breakdown -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <h3 class="text-lg font-bold text-slate-900">Asset Allocation</h3>
+                    <div class="space-y-3">
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="font-medium text-slate-700">Equities / Stocks</span><span class="font-bold text-slate-900">55%</span></div>
+                            <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden"><div class="bg-brand-600 h-full rounded-full" style="width: 55%"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="font-medium text-slate-700">Cryptocurrency</span><span class="font-bold text-slate-900">25%</span></div>
+                            <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden"><div class="bg-blue-600 h-full rounded-full" style="width: 25%"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="font-medium text-slate-700">ETFs & Index Funds</span><span class="font-bold text-slate-900">15%</span></div>
+                            <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden"><div class="bg-purple-600 h-full rounded-full" style="width: 15%"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="font-medium text-slate-700">Cash & Equivalents</span><span class="font-bold text-slate-900">5%</span></div>
+                            <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden"><div class="bg-amber-500 h-full rounded-full" style="width: 5%"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Performance Metrics -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <h3 class="text-lg font-bold text-slate-900">Key Performance Indicators</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                            <div class="text-xs text-slate-500 font-medium">Sharpe Ratio</div>
+                            <div class="text-xl font-bold text-slate-900 mt-1">1.84</div>
+                            <div class="text-[10px] text-emerald-600 mt-0.5">Good risk-adjusted return</div>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                            <div class="text-xs text-slate-500 font-medium">Volatility (30d)</div>
+                            <div class="text-xl font-bold text-slate-900 mt-1">12.4%</div>
+                            <div class="text-[10px] text-slate-500 mt-0.5">Moderate fluctuation</div>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                            <div class="text-xs text-slate-500 font-medium">Alpha vs S&P 500</div>
+                            <div class="text-xl font-bold text-slate-900 mt-1">+3.2%</div>
+                            <div class="text-[10px] text-emerald-600 mt-0.5">Outperforming benchmark</div>
+                        </div>
+                        <div class="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                            <div class="text-xs text-slate-500 font-medium">Max Drawdown</div>
+                            <div class="text-xl font-bold text-slate-900 mt-1">-4.8%</div>
+                            <div class="text-[10px] text-slate-500 mt-0.5">Low historic drop</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 4: SUPPORT PAGE -->
+        <div id="page-support" class="hidden max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center space-y-2">
+                <div class="inline-flex bg-brand-50 text-brand-600 p-3 rounded-2xl shadow-sm mb-1">
+                    <i class="fa-solid fa-headset text-xl"></i>
+                </div>
+                <h1 class="text-2xl font-bold text-slate-900">Customer Support & Help Center</h1>
+                <p class="text-slate-500 text-sm max-w-md mx-auto">Have questions about your account, deposits, or trading tools? Our financial experts are here 24/7.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Contact Form -->
+                <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <h3 class="text-lg font-bold text-slate-900">Send Us a Message</h3>
+                    <form onsubmit="handleSupportSubmit(event)" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Your Name</label>
+                            <input type="text" required placeholder="Alex Morgan" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Topic</label>
+                            <select class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white">
+                                <option>Account Verification</option>
+                                <option>Deposit / Withdrawal Issue</option>
+                                <option>Security & 2FA</option>
+                                <option>General Inquiry</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase text-slate-500 mb-1">Message</label>
+                            <textarea rows="3" required placeholder="Describe how we can assist you..." class="w-full px-4 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white py-2.5 rounded-xl font-semibold text-sm transition shadow-sm">Submit Ticket</button>
+                    </form>
+                </div>
+
+                <!-- FAQ & Live Chat -->
+                <div class="space-y-6">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                        <h3 class="text-lg font-bold text-slate-900">Frequently Asked Questions</h3>
+                        <div class="space-y-2 text-sm text-slate-600">
+                            <details class="group border-b border-slate-100 pb-2 cursor-pointer">
+                                <summary class="font-semibold text-slate-800 hover:text-brand-600">How long do wire transfers take?</summary>
+                                <p class="text-xs text-slate-500 mt-1">Domestic wire transfers typically clear within 1-2 business days.</p>
+                            </details>
+                            <details class="group border-b border-slate-100 pb-2 cursor-pointer">
+                                <summary class="font-semibold text-slate-800 hover:text-brand-600">Is my account insured?</summary>
+                                <p class="text-xs text-slate-500 mt-1">Yes, customer cash deposits are protected up to $500,000 via SIPC partner banks.</p>
+                            </details>
+                            <details class="group border-b border-slate-100 pb-2 cursor-pointer">
+                                <summary class="font-semibold text-slate-800 hover:text-brand-600">How do I reset my security PIN?</summary>
+                                <p class="text-xs text-slate-500 mt-1">Go to account settings or contact support for live identity verification.</p>
+                            </details>
+                        </div>
+                    </div>
+
+                    <div class="bg-brand-50 border border-brand-100 p-6 rounded-2xl flex items-center justify-between">
+                        <div>
+                            <div class="font-bold text-brand-900 text-sm">Need immediate help?</div>
+                            <div class="text-xs text-brand-700 mt-0.5">Live chat with a specialist is available right now.</div>
+                        </div>
+                        <button onclick="showNotification('Connecting you to a live DemoFinance agent...', 'success')" class="bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition shadow-sm">Start Chat</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE 5: SIGN-IN REDIRECT PAGE -->
+        <div id="page-signin" class="hidden max-w-md mx-auto px-4 py-16">
+            <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-xl space-y-6">
+                <div class="text-center space-y-2">
+                    <div class="inline-flex bg-brand-50 text-brand-600 p-3 rounded-2xl shadow-sm mb-2">
+                        <i class="fa-solid fa-lock text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold tracking-tight text-slate-900">Sign In to DemoFinance</h2>
+                    <p class="text-sm text-slate-500">Access your secure financial portfolio and analytics dashboard.</p>
+                </div>
+
+                <!-- Alert Feedback Box -->
+                <div id="auth-alert" class="hidden p-4 rounded-xl text-sm font-medium"></div>
+
+                <form id="signin-form" onsubmit="handleSignIn(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-slate-500 mb-1.5">Email Address</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                                <i class="fa-solid fa-envelope"></i>
+                            </span>
+                            <input type="email" id="signin-email" required placeholder="investor@example.com" class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent text-sm">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-slate-500 mb-1.5">Password</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-400">
+                                <i class="fa-solid fa-key"></i>
+                            </span>
+                            <input type="password" id="signin-password" required placeholder="••••••••" class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent text-sm">
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between text-xs">
+                        <label class="flex items-center space-x-2 text-slate-600 cursor-pointer">
+                            <input type="checkbox" class="rounded border-slate-300 text-brand-600 focus:ring-brand-500">
+                            <span>Remember this device</span>
+                        </label>
+                        <a href="#" onclick="showNotification('Password reset link sent to registered email.', 'info')" class="text-brand-600 hover:underline font-medium">Forgot password?</a>
+                    </div>
+
+                    <button type="submit" id="signin-submit-btn" class="w-full bg-brand-600 hover:bg-brand-700 text-white py-3 rounded-xl font-semibold text-sm transition shadow-md flex items-center justify-center space-x-2">
+                        <span>Secure Sign In</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </form>
+
+                <div class="relative flex py-2 items-center">
+                    <div class="flex-grow border-t border-slate-200"></div>
+                    <span class="flex-shrink mx-4 text-slate-400 text-xs uppercase">Or continue with</span>
+                    <div class="flex-grow border-t border-slate-200"></div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="mockOAuth('Google')" class="border border-slate-200 hover:bg-slate-50 py-2.5 rounded-xl text-xs font-semibold text-slate-700 flex items-center justify-center space-x-2 transition">
+                        <i class="fa-brands fa-google text-red-500"></i>
+                        <span>Google</span>
+                    </button>
+                    <button onclick="mockOAuth('Apple')" class="border border-slate-200 hover:bg-slate-50 py-2.5 rounded-xl text-xs font-semibold text-slate-700 flex items-center justify-center space-x-2 transition">
+                        <i class="fa-brands fa-apple text-slate-900"></i>
+                        <span>Apple ID</span>
+                    </button>
+                </div>
+
+                <div class="text-center text-xs text-slate-500 pt-2">
+                    Don't have an account? <a href="#" onclick="switchPage('signin'); showNotification('Registration is currently by invitation only.', 'info');" class="text-brand-600 font-semibold hover:underline">Request Access</a>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // State management
+        let currentUser = null;
+
+        // Switch between application pages
+        function switchPage(pageId) {
+            const pages = ['dashboard', 'markets', 'analytics', 'support', 'signin'];
+            
+            pages.forEach(p => {
+                const el = document.getElementById(`page-${p}`);
+                if (el) {
+                    if (p === pageId) {
+                        el.classList.remove('hidden');
+                    } else {
+                        el.classList.add('hidden');
+                    }
+                }
+            });
+
+            // Update nav styles
+            const navLinks = ['dash', 'markets', 'analytics', 'support'];
+            navLinks.forEach(nav => {
+                const btn = document.getElementById(`nav-${nav}`);
+                if (btn) {
+                    if (nav === pageId || (pageId === 'dashboard' && nav === 'dash')) {
+                        btn.classList.add('border-b-2', 'border-brand-600', 'text-brand-600');
+                    } else {
+                        btn.classList.remove('border-b-2', 'border-brand-600', 'text-brand-600');
+                    }
+                }
+            });
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Gemini API Chat Assistant for Dashboard
+        async function handleGeminiChat(event) {
+            event.preventDefault();
+            const inputEl = document.getElementById('chat-input');
+            const submitBtn = document.getElementById('chat-submit-btn');
+            const chatMessages = document.getElementById('chat-messages');
+            const userPrompt = inputEl.value.trim();
+
+            if (!userPrompt) return;
+
+            // Append user message
+            chatMessages.innerHTML += `
+                <div class="bg-slate-700/60 p-3 rounded-xl border border-slate-600 ml-auto max-w-xl text-right">
+                    <span class="font-bold text-slate-200">You:</span> ${escapeHtml(userPrompt)}
+                </div>
+            `;
+            inputEl.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i>`;
+
+            const loadingId = 'loading-' + Date.now();
+            chatMessages.innerHTML += `
+                <div id="${loadingId}" class="bg-slate-800/80 p-3 rounded-xl border border-slate-700/50 max-w-xl text-slate-400 italic">
+                    <i class="fa-solid fa-sparkles animate-pulse mr-2 text-brand-400"></i> Gemini is analyzing financial data...
+                </div>
+            `;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            try {
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+                
+                const payload = {
+                    contents: [{ parts: [{ text: userPrompt }] }],
+                    systemInstruction: {
+                        parts: [{ text: "Act as an expert financial advisor for DemoFinance. The user has $128,450.90 in total portfolio value, with allocations in stocks (AAPL), crypto (Bitcoin, Ethereum, Solana), and ETFs. Give prudent, clear, and professional investment insights in 1-2 paragraphs." }]
+                    }
+                };
+
+                let response = null;
+                // Implement exponential backoff retry
+                for (let attempt = 0; attempt < 3; attempt++) {
+                    try {
+                        response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                        if (response.ok) break;
+                    } catch (err) {
+                        if (attempt === 2) throw err;
+                        await new Promise(r => setTimeout(r, Math.pow(2, attempt) * 1000));
+                    }
+                }
+
+                const result = await response.json();
+                const candidate = result.candidates?.[0];
+                const replyText = candidate?.content?.parts?.[0]?.text || "I am unable to process your request at the moment. Please try again.";
+
+                document.getElementById(loadingId).remove();
+                chatMessages.innerHTML += `
+                    <div class="bg-slate-800/80 p-3 rounded-xl border border-slate-700/50 max-w-xl">
+                        <span class="font-bold text-brand-400">Gemini Advisor:</span> ${escapeHtml(replyText)}
+                    </div>
+                `;
+            } catch (error) {
+                document.getElementById(loadingId).remove();
+                chatMessages.innerHTML += `
+                    <div class="bg-rose-900/40 p-3 rounded-xl border border-rose-800 max-w-xl text-rose-300">
+                        <span class="font-bold">Error:</span> Unable to reach Gemini API. Please check your network connection.
+                    </div>
+                `;
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<span>Ask AI</span><i class="fa-solid fa-paper-plane text-xs"></i>`;
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }
+
+        // Gemini Grounded Search Market Insight Generator
+        async function fetchGeminiMarketInsight() {
+            const container = document.getElementById('market-insight-container');
+            const contentEl = document.getElementById('market-insight-content');
+            const btn = document.getElementById('insight-btn');
+
+            container.classList.remove('hidden');
+            contentEl.innerHTML = `<i class="fa-solid fa-spinner animate-spin mr-2"></i> Researching latest global market conditions with Google Search grounding...`;
+            btn.disabled = true;
+
+            try {
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+                
+                const payload = {
+                    contents: [{ parts: [{ text: "Provide a concise summary of the latest trends in global stock markets, S&P 500, and cryptocurrencies." }] }],
+                    tools: [{ "google_search": {} }],
+                    systemInstruction: {
+                        parts: [{ text: "Act as a senior market analyst. Provide an executive summary of current market movements suitable for retail investors." }]
+                    }
+                };
+
+                let response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                const candidate = result.candidates?.[0];
+                const text = candidate?.content?.parts?.[0]?.text || "Market summary currently unavailable.";
+
+                let sourcesHtml = '';
+                const groundingMetadata = candidate?.groundingMetadata;
+                if (groundingMetadata && groundingMetadata.groundingAttributions) {
+                    const sources = groundingMetadata.groundingAttributions
+                        .map(attr => attr.web ? `<a href="${attr.web.uri}" target="_blank" class="text-brand-700 underline hover:text-brand-900 mr-2">[${attr.web.title}]</a>` : '')
+                        .filter(Boolean);
+                    if (sources.length > 0) {
+                        sourcesHtml = `<div class="mt-3 pt-2 border-t border-brand-200 text-xs text-slate-500">Sources: ${sources.join(' ')}</div>`;
+                    }
+                }
+
+                contentEl.innerHTML = `<div>${escapeHtml(text)}</div>${sourcesHtml}`;
+            } catch (err) {
+                contentEl.innerHTML = `<span class="text-rose-600">Failed to retrieve real-time market insight. Please try again later.</span>`;
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        // Helper to prevent XSS in chat
+        function escapeHtml(text) {
+            const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        // Handle sign in form submission & automatic redirect
+        function handleSignIn(event) {
+            event.preventDefault();
+            const emailInput = document.getElementById('signin-email').value;
+            const submitBtn = document.getElementById('signin-submit-btn');
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin mr-2"></i> Authenticating...`;
+
+            setTimeout(() => {
+                currentUser = emailInput;
+                updateAuthUI();
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<span>Secure Sign In</span><i class="fa-solid fa-arrow-right"></i>`;
+                
+                // Successful sign-in redirect back to dashboard
+                switchPage('dashboard');
+                showNotification(`Successfully signed in as ${currentUser}! Welcome back.`, 'success');
+            }, 1000);
+        }
+
+        // Handle support ticket submit
+        function handleSupportSubmit(event) {
+            event.preventDefault();
+            showNotification('Support ticket submitted successfully! Our team will reply shortly.', 'success');
+            event.target.reset();
+        }
+
+        // Mock OAuth provider click
+        function mockOAuth(provider) {
+            currentUser = `investor@${provider.toLowerCase()}.user`;
+            updateAuthUI();
+            switchPage('dashboard');
+            showNotification(`Successfully authenticated via ${provider}!`, 'success');
+        }
+
+        // Update navigation header based on auth status
+        function updateAuthUI() {
+            const container = document.getElementById('auth-status-container');
+            const welcomeMsg = document.getElementById('welcome-msg');
+            
+            if (currentUser) {
+                const username = currentUser.split('@')[0];
+                if (welcomeMsg) {
+                    welcomeMsg.innerText = `Welcome back, ${username.charAt(0).toUpperCase() + username.slice(1)}! 👋`;
+                }
+                container.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <div class="hidden sm:block text-right">
+                            <div class="text-xs font-bold text-slate-900">${currentUser}</div>
+                            <div class="text-[10px] text-emerald-600 font-semibold">Verified Member</div>
+                        </div>
+                        <button onclick="handleSignOut()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-lg text-sm font-semibold transition" title="Sign Out">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                        </button>
+                    </div>
+                `;
+            } else {
+                if (welcomeMsg) {
+                    welcomeMsg.innerText = `Welcome back, Investor! 👋`;
+                }
+                container.innerHTML = `
+                    <button onclick="switchPage('signin')" id="nav-auth-btn" class="bg-slate-900 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-slate-800 transition shadow-sm">Sign In</button>
+                `;
+            }
+        }
+
+        // Handle sign out
+        function handleSignOut() {
+            currentUser = null;
+            updateAuthUI();
+            showNotification('You have been securely signed out.', 'info');
+        }
+
+        // Refresh portfolio data simulation
+        function refreshData() {
+            showNotification('Portfolio data refreshed successfully!', 'success');
+        }
+
+        // Notification toast banner
+        function showNotification(message, type = 'success') {
+            let toast = document.createElement('div');
+            toast.className = `fixed bottom-6 right-6 z-50 px-5 py-3 rounded-xl shadow-xl text-sm font-medium flex items-center space-x-3 transition transform translate-y-0 opacity-100 ${
+                type === 'success' ? 'bg-emerald-600 text-white' : 'bg-slate-900 text-white'
+            }`;
+            toast.innerHTML = `
+                <i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-circle-info'}"></i>
+                <span>${message}</span>
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
