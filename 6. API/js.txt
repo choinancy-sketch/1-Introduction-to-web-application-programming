@@ -1,0 +1,78 @@
+async function fetchData(url) {
+    const apiUrlEl = document.getElementById('apiUrl');
+    const responseTimeEl = document.getElementById('responseTime');
+    const recordCountEl = document.getElementById('recordCount');
+    const rawJsonEl = document.getElementById('rawJson');
+    const resultsEl = document.getElementById('results');
+
+    apiUrlEl.textContent = url;
+    resultsEl.innerHTML = '<div class="loading">⏳ Loading...</div>';
+
+    const startTime = performance.now();
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const endTime = performance.now();
+
+        responseTimeEl.textContent = `${(endTime - startTime).toFixed(0)}ms`;
+        recordCountEl.textContent = Array.isArray(data) ? data.length : 1;
+        rawJsonEl.textContent = JSON.stringify(data.slice(0, 3), null, 2) + '\n... (truncated)';
+
+        return data;
+    } catch (error) {
+        resultsEl.innerHTML = `<div class="card" style="border-color:red">❌ Error: ${error.message}</div>`;
+        return null;
+    }
+}
+
+async function fetchUsers() {
+    const data = await fetchData('https://jsonplaceholder.typicode.com/users');
+    if (!data) return;
+
+    document.getElementById('results').innerHTML = data.map(user => `
+        <div class="card">
+            <h3>👤 ${user.name}</h3>
+            <p class="email">📧 ${user.email}</p>
+            <p>🏢 ${user.company.name}</p>
+            <p>📍 ${user.address.city}</p>
+            <p>🌐 ${user.website}</p>
+        </div>
+    `).join('');
+}
+
+async function fetchPosts() {
+    const data = await fetchData('https://jsonplaceholder.typicode.com/posts?_limit=10');
+    if (!data) return;
+
+    document.getElementById('results').innerHTML = data.map(post => `
+        <div class="card">
+            <h3>📝 ${post.title}</h3>
+            <p>${post.body}</p>
+            <p><small>Post ID: ${post.id} | User ID: ${post.userId}</small></p>
+        </div>
+    `).join('');
+}
+
+async function fetchPhotos() {
+    const data = await fetchData('https://jsonplaceholder.typicode.com/photos?_limit=12');
+    if (!data) return;
+
+    document.getElementById('results').innerHTML = `
+        <div class="photo-grid">
+            ${data.map(photo => `
+                <div class="photo-card">
+                    <img src="${photo.thumbnailUrl}" alt="${photo.title}">
+                    <p>${photo.title.substring(0, 30)}...</p>
+                </div>
+            `).join('')}
+        </div>`;
+}
+
+function clearResults() {
+    document.getElementById('results').innerHTML = '';
+    document.getElementById('apiUrl').textContent = '-';
+    document.getElementById('responseTime').textContent = '-';
+    document.getElementById('recordCount').textContent = '-';
+    document.getElementById('rawJson').textContent = '';
+}

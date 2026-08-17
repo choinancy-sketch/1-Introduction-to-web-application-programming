@@ -1,0 +1,24 @@
+<div class="api-demo">
+    <h1>🌐 API Explorer</h1>
+    <p class="subtitle">Fetching real data from JSONPlaceholder API</p>
+
+    <div class="controls">
+        <button onclick="fetchUsers()" class="btn">👥 Load Users</button>
+        <button onclick="fetchPosts()" class="btn">📝 Load Posts</button>
+        <button onclick="fetchPhotos()" class="btn">📷 Load Photos</button>
+        <button onclick="clearResults()" class="btn secondary">🗑️ Clear</button>
+    </div>
+
+    <div class="api-info">
+        <p>API URL: <code id="apiUrl">-</code></p>
+        <p>Response Time: <code id="responseTime">-</code></p>
+        <p>Records Found: <code id="recordCount">-</code></p>
+    </div>
+
+    <div id="results"></div>
+
+    <details>
+        <summary>📋 View Raw JSON Response</summary>
+        <pre id="rawJson"></pre>
+    </details>
+</div>

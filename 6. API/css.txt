@@ -1,0 +1,87 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #0a0a23;
+    color: #f0f0f0;
+    padding: 20px;
+}
+.api-demo { max-width: 700px; margin: 0 auto; }
+h1 { text-align: center; font-size: 2em; margin-bottom: 5px; }
+.subtitle { text-align: center; color: #888; margin-bottom: 20px; }
+.controls {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.btn {
+    padding: 10px 20px;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+.btn:hover { background: #2563eb; transform: translateY(-2px); }
+.btn.secondary { background: #4b5563; }
+.api-info {
+    background: #1e1e3f;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 0.9em;
+}
+.api-info p { margin: 5px 0; }
+code {
+    background: #2d2d5e;
+    padding: 2px 8px;
+    border-radius: 4px;
+    color: #60a5fa;
+}
+.card {
+    background: #1e1e3f;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border-left: 4px solid #3b82f6;
+    transition: transform 0.2s;
+}
+.card:hover { transform: translateX(5px); }
+.card h3 { color: #60a5fa; margin-bottom: 5px; }
+.card p { color: #aaa; font-size: 0.9em; }
+.card .email { color: #34d399; }
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+}
+.photo-card {
+    background: #1e1e3f;
+    padding: 8px;
+    border-radius: 8px;
+    text-align: center;
+}
+.photo-card img { width: 100%; border-radius: 6px; }
+.photo-card p { font-size: 0.7em; color: #888; margin-top: 5px; }
+details {
+    margin-top: 20px;
+    background: #1e1e3f;
+    padding: 15px;
+    border-radius: 10px;
+}
+summary { cursor: pointer; color: #60a5fa; }
+pre {
+    margin-top: 10px;
+    background: #0d1117;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 0.8em;
+    color: #7ee787;
+    max-height: 300px;
+    overflow-y: auto;
+}
+.loading { text-align: center; padding: 20px; color: #888; }
