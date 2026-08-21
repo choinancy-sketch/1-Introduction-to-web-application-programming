@@ -1,24 +1,53 @@
-<div class="api-demo">
-    <h1>🌐 API Explorer</h1>
-    <p class="subtitle">Fetching real data from JSONPlaceholder API</p>
+const rateSlider = document.getElementById('rate');
+const yearsSlider = document.getElementById('years');
 
-    <div class="controls">
-        <button onclick="fetchUsers()" class="btn">👥 Load Users</button>
-        <button onclick="fetchPosts()" class="btn">📝 Load Posts</button>
-        <button onclick="fetchPhotos()" class="btn">📷 Load Photos</button>
-        <button onclick="clearResults()" class="btn secondary">🗑️ Clear</button>
-    </div>
+rateSlider.addEventListener('input', () => {
+    document.getElementById('rateDisplay').textContent = rateSlider.value + '%';
+});
+yearsSlider.addEventListener('input', () => {
+    document.getElementById('yearsDisplay').textContent = yearsSlider.value + ' years';
+});
 
-    <div class="api-info">
-        <p>API URL: <code id="apiUrl">-</code></p>
-        <p>Response Time: <code id="responseTime">-</code></p>
-        <p>Records Found: <code id="recordCount">-</code></p>
-    </div>
+function calculate() {
+    const principal = parseFloat(document.getElementById('principal').value);
+    const monthly = parseFloat(document.getElementById('monthly').value);
+    const annualRate = parseFloat(document.getElementById('rate').value) / 100;
+    const years = parseInt(document.getElementById('years').value);
 
-    <div id="results"></div>
+    const monthlyRate = annualRate / 12;
+    const months = years * 12;
 
-    <details>
-        <summary>📋 View Raw JSON Response</summary>
-        <pre id="rawJson"></pre>
-    </details>
-</div>
+    let balance = principal;
+    let totalContributed = principal;
+    let breakdownHTML = '<h3 style="margin-bottom:10px;">📅 Year-by-Year Breakdown</h3>';
+
+    for (let year = 1; year <= years; year++) {
+        for (let month = 1; month <= 12; month++) {
+            balance = balance * (1 + monthlyRate) + monthly;
+            totalContributed += monthly;
+        }
+        breakdownHTML += `
+            <div class="year-row">
+                <span>Year ${year}</span>
+                <span>Balance: $${balance.toLocaleString('en-US', {
+                    minimumFractionDigits: 0, maximumFractionDigits: 0
+                })}</span>
+            </div>`;
+    }
+
+    const interestEarned = balance - totalContributed;
+
+    document.getElementById('totalInvested').textContent =
+        '$' + totalContributed.toLocaleString('en-US', {maximumFractionDigits: 0});
+    document.getElementById('futureValue').textContent =
+        '$' + balance.toLocaleString('en-US', {maximumFractionDigits: 0});
+    document.getElementById('interestEarned').textContent =
+        '+$' + interestEarned.toLocaleString('en-US', {maximumFractionDigits: 0});
+
+    document.getElementById('results').classList.remove('hidden');
+    document.getElementById('results').style.display = 'grid';
+    document.getElementById('yearlyBreakdown').innerHTML = breakdownHTML;
+}
+
+// Calculate on page load
+calculate();
